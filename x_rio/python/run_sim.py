@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 This file is part of RIO - Radar Inertial Odometry and Radar based ego velocity estimation.

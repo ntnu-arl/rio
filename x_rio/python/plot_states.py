@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 This file is part of RIO - Radar Inertial Odometry and Radar based ego velocity estimation.
@@ -61,7 +61,7 @@ class PlotStates:
             self.sigma_list.append(np.hstack(sigmas))
 
     def plot(self):
-        N_radar = (self.state_list[0].shape[0] - 16) / 6
+        N_radar = int((self.state_list[0].shape[0] - 16) / 6)
 
         fig_data, (ax_p, ax_v, ax_eul, ax_b_a, ax_b_w, ax_aux) = plt.subplots(6, 3, sharex=True)
         fig_data_s, (ax_p_s, ax_v_s, ax_eul_s, ax_b_a_s, ax_b_w_s, ax_aux_s) = plt.subplots(6, 3, sharex=True)
