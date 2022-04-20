@@ -3,4 +3,4 @@
 	url = https://github.com/ntnu-arl/reve.git
 [submodule "rpg_trajectory_evaluation"]
 	path = rpg_trajectory_evaluation
-	url = https://github.com/christopherdoer/rpg_trajectory_evaluation.git
+	url = https://github.com/ntnu-arl/rpg_trajectory_evaluation.git 
