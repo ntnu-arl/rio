@@ -483,6 +483,7 @@ void XRioRos::iterateRadarScan()
         {
           FullRadarCloneState radar_clone_state;
           uint clone_state_id;
+          x_rio_filter_.addRadarStateClone(0, radar_data_msg.header.stamp);
           if (x_rio_filter_.getFullRadarState(radar_data.first, radar_clone_state, clone_state_id))
           {
             const auto time_diff_clone =
