@@ -16,7 +16,7 @@
 
     <arg name="n_radar" default="1"/>
     <arg name="radar_yaw_update" default="true"/>
-    <arg name="altimeter_update" default="false"/>
+    <arg name="altimeter_update" default="true"/>
     <arg name="estimate_extrinsics" default="true"/>
 
     <arg name="filter_node_name" default="rio"/>
@@ -26,10 +26,10 @@
         <param name="rosbag_path" value="$(arg dataset_dir)/$(arg rosbag)" type="string"/>
         <rosparam file="$(find x_rio)/config/$(arg config).yaml" command="load" ns=""/>
         <rosparam file="$(arg calibration_0).yaml" command="load" ns="radar_0"/>
-        <param name="b_0_w_z_deg" value="-0.10" type="double"/>
+        <!-- <param name="b_0_w_z_deg" value="-0.10" type="double"/> -->
         <param name="yaw_0_deg" value="2" type="double"/>
-        <param name="topic_imu" value="/vectornav_node/imu" type="str"/>
-        <param name="topic_baro_altimeter" value="/vectornav_node/pressure" type="str"/>
+        <!-- <param name="topic_imu" value="/vectornav_node/imu" type="str"/>
+        <param name="topic_baro_altimeter" value="/vectornav_node/pressure" type="str"/> -->
         <param name="radar_yaw_update" value="$(arg radar_yaw_update)" type="bool"/>
         <param name="altimeter_update" value="$(arg altimeter_update)" type="bool"/>
         <param name="estimate_extrinsics" value="$(arg estimate_extrinsics)" type="bool"/>
