@@ -382,13 +382,20 @@ void XRioRos::iterateBaro()
   if (!queue_baro_.empty())
   {
     auto baro_temp_msg = queue_baro_.front();
+    // TODO(morten): parametrize unit/conversion of fluid pressure
     if (!baro_initialized_)
     {
+      // convert to Pa
+      baro_temp_msg.fluid_pressure *= 1000;
+
       baro_init_vec_.emplace_back(baro_altimeter_.calculate_rel_neg_height(baro_temp_msg, baro_h_0_));
       queue_baro_.pop();
     }
     else if (x_rio_filter_.getTimestamp() >= baro_temp_msg.header.stamp)
     {
+      // convert to Pa
+      baro_temp_msg.fluid_pressure *= 1000;
+      
       queue_baro_.pop();
       if (config_.altimeter_update)
       {
