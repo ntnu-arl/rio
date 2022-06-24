@@ -52,7 +52,7 @@ XRioRos::XRioRos(ros::NodeHandle& nh) : nh_{nh}, initialized_{false}, yaw_aiding
   pub_cov_                 = nh.advertise<x_rio::XRioCovariance>("covariance", 5);
   pub_nom_                 = nh.advertise<x_rio::XRioState>("state", 5);
   pub_odometry_            = nh.advertise<nav_msgs::Odometry>("odom", 1);
-  pub_pose_path_           = nh.advertise<nav_msgs::Path>("pose_path", 1);
+  pub_pose_path_           = nh.advertise<nav_msgs::Path>("pose_path", 1, true);
   pub_pose_                = nh.advertise<geometry_msgs::PoseStamped>("pose", 1);
   pub_twist_               = nh.advertise<geometry_msgs::TwistStamped>("twist", 1);
   pub_combined_radar_scan_ = nh.advertise<sensor_msgs::PointCloud2>("combined_radar_scan", 10);
