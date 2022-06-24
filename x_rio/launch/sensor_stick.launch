@@ -40,6 +40,6 @@
 
     <node name="plot_states" pkg="x_rio" type="plot_states.py" output="screen" if="$(arg enable_plot)"/>
 
-    <node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find x_rio)/config/sensor_stick/x_rio.rviz" if="$(arg enable_rviz)"/>
+    <node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find x_rio)/config/sensor_stick/rio.rviz" if="$(arg enable_rviz)"/>
 
 </launch>
