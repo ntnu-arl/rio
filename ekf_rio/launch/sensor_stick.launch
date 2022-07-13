@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--This file is part of RIO - Radar Inertial Odometry and Radar based ego velocity estimation.-->
+<!--@author Christopher Doer <christopher.doer@kit.edu>-->
+
+<launch>
+    <param name="use_sim_time" value="False" type="bool"/>
+    <arg name="do_plot" default="False"/>
+    <arg name="enable_rviz" default="False"/>
+
+    <arg name="config" default="sensor_stick/sensor_stick"/>
+    <arg name="calibration" default="$(find ekf_rio)/config/sensor_stick/sensor_stick_calib_radar"/>
+
+    <arg name="filter_node_name" default="ekf_rio"/>
+    <arg name="log_level" default="Info"/>
+
+    <arg name="run_without_radar_trigger" default="True"/>
+
+    <node name="$(arg filter_node_name)" pkg="ekf_rio" type="ros_node" output="screen">
+        <rosparam file="$(find ekf_rio)/config/$(arg config).yaml" command="load" ns=""/>
+        <rosparam file="$(arg calibration).yaml" command="load" ns=""/>
+        <param name="topic_imu" value="/vectornav_node/imu" type="str"/>
+        <param name="topic_baro_altimeter" value="/vectornav_node/pressure" type="str"/>
+        <param name="topic_radar_scan" value="/ti_mmwave/radar_scan_pcl_0" type="str"/>
+        <param name="b_0_w_z_deg" value="-0.05" type="double"/>
+        <param name="republish_ground_truth" value="false" type="bool"/>
+        <param name="run_without_radar_trigger" value="$(arg run_without_radar_trigger)" type="bool"/>
+    </node>
+
+    <!-- <node name="evaluator" pkg="ekf_rio" type="pose_velocity_evaluator.py" output="screen" required="True">
+        <rosparam file="$(arg calibration).yaml" command="load" ns=""/>
+        <param name="topic_pose" value="$(arg filter_node_name)/pose" type="string"/>
+        <param name="topic_twist" value="$(arg filter_node_name)/twist" type="string"/>
+        <param name="filter_name" value="ekf_rio" type="string"/>
+        <param name="do_plot" value="$(arg do_plot)" type="bool"/>
+    </node> -->
+
+    <node pkg="rosservice" type="rosservice" name="set_$(arg filter_node_name)_log_level" args="call --wait /$(arg filter_node_name)/set_logger_level 'ros.$(arg filter_node_name)' '$(arg log_level)'"/>
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ekf_rio)/config/ekf_rio.rviz" if="$(arg enable_rviz)"/>
+</launch>
