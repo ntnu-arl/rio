@@ -95,8 +95,6 @@ public:
 
   bool updateYaw(const uint radar_id, const Real& yaw_m, const Real& sigma_yaw, const Real& outlier_rejection_thresh);
 
-  bool updatePose(const Vector3& p_n_b, const Vector3& sigmas);
-
   /**
    * @brief Returns the current filter ros time stamp
    */

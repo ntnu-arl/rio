@@ -92,7 +92,6 @@ private:
   void iterateRadarTrigger();
   void iterateRadarScan();
   void iterateRadarSim();
-  void iteratePose();
 
   /**
    * @brief Tries to initializes the filter with the provided imu mueasurement
@@ -134,8 +133,6 @@ private:
    */
   void callbackRadarTrigger(const uint id, const std_msgs::HeaderConstPtr& trigger_msg);
 
-  void callbackPose(const geometry_msgs::PoseStampedConstPtr& pose_msg);
-
   /**
    * @brief Does all ros publishing
    */
@@ -154,7 +151,6 @@ private:
 
   ros::Subscriber sub_imu_;
   ros::Subscriber sub_baro_;
-  ros::Subscriber sub_pose_;
   std::vector<ros::Subscriber> subs_radar_scan_;
   std::vector<ros::Subscriber> subs_radar_trigger_;
 
@@ -194,7 +190,6 @@ private:
   std::queue<std::pair<uint, sensor_msgs::PointCloud2>> queue_radar_;
   std::queue<std::pair<uint, std_msgs::Header>> queue_radar_trigger_;
   std::queue<std::pair<uint, geometry_msgs::TwistStamped>> queue_v_r_sim_;
-  std::queue<geometry_msgs::PoseStamped> queue_pose_;
 
   SimpleProfiler profiler_;
 
