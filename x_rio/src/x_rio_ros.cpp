@@ -47,6 +47,8 @@ XRioRos::XRioRos(ros::NodeHandle& nh) : nh_{nh}, initialized_{false}, yaw_aiding
   sub_imu_  = nh.subscribe<sensor_msgs::Imu>(config_.topic_imu, 2, boost::bind(&XRioRos::callbackIMU, this, _1));
   sub_baro_ = nh.subscribe<sensor_msgs::FluidPressure>(
       config_.topic_baro_altimeter, 2, boost::bind(&XRioRos::callbackBaroAltimter, this, _1));
+  sub_pose_ = nh.subscribe<geometry_msgs::PoseStamped>("/radar_slam/pose", 2,
+                                                       boost::bind(&XRioRos::callbackPose, this, _1));
 
   // publishers
   pub_cov_                 = nh.advertise<x_rio::XRioCovariance>("covariance", 5);
@@ -336,6 +338,7 @@ void XRioRos::iterate()
   iterateRadarTrigger();
   iterateRadarScan();
   iterateRadarSim();
+  iteratePose();
   mutex_.unlock();
 }
 
@@ -691,6 +694,33 @@ void XRioRos::iterateRadarSim()
   }
 }
 
+void XRioRos::iteratePose(){
+  if (!queue_pose_.empty())
+  {
+    auto pose_msg = queue_pose_.front();
+    if (!initialized_)
+    {
+      queue_pose_.pop();
+    }
+    else if (x_rio_filter_.getTimestamp() >= pose_msg.header.stamp)
+    {
+      queue_pose_.pop();
+      profiler_.start("icp_pose_update");
+      // TODO convert to NED
+      Vector3 p_n_b(pose_msg.pose.position.x, -pose_msg.pose.position.y, -pose_msg.pose.position.z);
+      ROS_INFO_STREAM("Current pose: " << x_rio_filter_.getNavigationSolution().getPosition_n_b());
+      ROS_INFO_STREAM("Fusing pose: " << p_n_b);
+      x_rio_filter_.updatePose(p_n_b, Vector3(0.5, 0.5, 0.5));
+      profiler_.stop("icp_pose_update");
+    }
+    else
+    {
+      ROS_WARN("stuff");
+      std::cout << x_rio_filter_.getTimestamp() << '\t' << pose_msg.header.stamp << std::endl;
+    }
+  }
+}
+
 void XRioRos::reconfigureCallback(x_rio::XRioConfig& config, uint32_t level)
 {
   x_rio_filter_.configure(config);
@@ -752,6 +782,13 @@ void XRioRos::callbackRadarTrigger(const uint id, const std_msgs::HeaderConstPtr
 {
   mutex_.lock();
   queue_radar_trigger_.push({id, *trigger_msg});
+  mutex_.unlock();
+}
+
+void XRioRos::callbackPose(const geometry_msgs::PoseStampedConstPtr& pose_msg)
+{
+  mutex_.lock();
+  queue_pose_.push(*pose_msg);
   mutex_.unlock();
 }
 

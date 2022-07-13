@@ -472,3 +472,20 @@ bool XRioFilter::updateWithOutlierRejection(const Vector& r,
   }
   return true;
 }
+
+
+
+bool XRioFilter::updatePose(const Vector3& p_n_b, const Vector3& sigmas)
+{
+  Matrix H = Matrix::Zero(3, getCovarianceMatrix().cols());
+  Vector3 r;
+  Matrix3 R;
+
+  H.block(0, error_idx_.position, 3, 3)              = Matrix::Identity(3, 3);
+  const Vector3 p_filter           = getNavigationSolution().getPosition_n_b();
+  r                                = p_filter - p_n_b;
+  R                                = sigmas.cwiseProduct(sigmas).asDiagonal();
+  kfUpdate(r, H, R);
+
+  return true;
+}
