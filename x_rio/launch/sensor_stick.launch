@@ -27,9 +27,9 @@
     <node name="$(arg filter_node_name)" pkg="x_rio" type="$(arg type)" output="screen" launch-prefix="bash -c 'sleep 0.; $0 $@' " clear_params="false">
         <param name="rosbag_path" value="$(arg dataset_dir)/$(arg rosbag)" type="string"/>
         <rosparam file="$(find x_rio)/config/$(arg config).yaml" command="load" ns=""/>
-        <rosparam file="$(arg calibration_0).yaml" command="load" ns="radar_middle"/>
-        <rosparam file="$(arg calibration_1).yaml" command="load" ns="radar_left"/>
-        <rosparam file="$(arg calibration_2).yaml" command="load" ns="radar_right"/>
+        <rosparam file="$(arg calibration_0).yaml" command="load" ns="radar_0"/>
+        <rosparam file="$(arg calibration_1).yaml" command="load" ns="radar_1"/>
+        <rosparam file="$(arg calibration_2).yaml" command="load" ns="radar_2"/>
         <!-- <param name="b_0_w_z_deg" value="-0.10" type="double"/> -->
         <param name="yaw_0_deg" value="2" type="double"/>
         <!-- <param name="topic_imu" value="/vectornav_node/imu" type="str"/>
