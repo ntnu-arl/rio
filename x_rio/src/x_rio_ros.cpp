@@ -326,6 +326,9 @@ void XRioRos::runFromRosbag(const std::string& rosbag_path,
 
   publish();
   printStats();
+
+  ROS_INFO_STREAM("finished");
+  ros::waitForShutdown();
 }
 
 void XRioRos::iterate()

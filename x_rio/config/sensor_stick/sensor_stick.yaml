@@ -27,25 +27,25 @@ altimeter_update: True
 radar_update: True
 radar_yaw_update: True
 
-sigma_altimeter: 5.0
+sigma_altimeter: 1.0 # 5.0
 sigma_b_alt: 0
 
 # Radar Measurement Model
-outlier_percentil_radar: 0.05 # 0.05
+outlier_percentil_radar: 0.05
 use_w: True
 use_reduced_radar_clone: False
 use_diagonal_noise: False
 estimated_extrinsics_error_att: False
 
 # Radar Ego Velocity Estimation
-min_dist: 0.5
+min_dist: 0.1 # 0.5
 max_dist: 60
 min_db: 5
 azimuth_thresh_deg: 60
 elevation_thresh_deg: 45
 radar_velocity_correction_factor: 1.0
-filter_min_z: -2 # in -2 2 out
-filter_max_z: 2
+# filter_min_z: -2 # in -2 2 out
+# filter_max_z: 2
 
 thresh_median_zero_velocity: 0.05
 allowed_outlier_percentage: 0.25
@@ -131,15 +131,10 @@ sigma_eul_b_r_pitch_deg: 0.15
 sigma_eul_b_r_yaw_deg: 0.15
 
 # Noise PSDs
-# noise_psd_a: 0.019416176
-# noise_psd_w_deg: 0.004949747
-noise_psd_a: 0.02
-noise_psd_w_deg: 0.005
-# noise_psd_b_a: 0.0002
-# noise_psd_b_w_deg: 0.00075
-# noise_psd_b_alt: 0.01
-# noise_psd_a: 0.03
-# noise_psd_w_deg: 0.2
+noise_psd_a: 0.019416176
+noise_psd_w_deg: 0.004949747
+# noise_psd_b_a: 0.00002
+# noise_psd_b_w_deg: 0.000075
 noise_psd_b_a: 0.00001
 noise_psd_b_w_deg: 0.00001
 noise_psd_b_alt: 0.000001

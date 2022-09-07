@@ -8,25 +8,27 @@
 
     <arg name="type"/>
 
-    <arg name="dataset_dir" default="$(find x_rio)/config/sensor_stick"/>
-    <arg name="rosbag" default="demo_x_rio.bag"/>
+    <arg name="dataset_dir" default="/home/morten/bags/2023_icra_radar"/>
+    <arg name="rosbag" default="day1/bathroom_loop_2/data.bag"/>
 
-    <arg name="config" default="sensor_stick/sensor_stick"/>
-    <arg name="calibration_0" default="$(arg dataset_dir)/sensor_stick_calib_radar_middle"/>
-    <arg name="calibration_1" default="$(arg dataset_dir)/sensor_stick_calib_radar_left"/>
-    <arg name="calibration_2" default="$(arg dataset_dir)/sensor_stick_calib_radar_right"/>
+    <arg name="config_dir" default="$(find x_rio)/config/sensor_stick"/>
+    <arg name="config" default="sensor_stick"/>
+    <arg name="calibration_0" default="$(arg config_dir)/sensor_stick_calib_radar_middle"/>
+    <arg name="calibration_1" default="$(arg config_dir)/sensor_stick_calib_radar_left"/>
+    <arg name="calibration_2" default="$(arg config_dir)/sensor_stick_calib_radar_right"/>
 
     <arg name="n_radar" default="3"/>
     <arg name="radar_yaw_update" default="true"/>
     <arg name="altimeter_update" default="true"/>
-    <arg name="estimate_extrinsics" default="true"/>
+    <!-- seems better without -->
+    <arg name="estimate_extrinsics" default="false"/>
 
     <arg name="filter_node_name" default="rio"/>
     <arg name="log_level" default="Info"/>
 
     <node name="$(arg filter_node_name)" pkg="x_rio" type="$(arg type)" output="screen" launch-prefix="bash -c 'sleep 0.; $0 $@' " clear_params="false">
         <param name="rosbag_path" value="$(arg dataset_dir)/$(arg rosbag)" type="string"/>
-        <rosparam file="$(find x_rio)/config/$(arg config).yaml" command="load" ns=""/>
+        <rosparam file="$(arg config_dir)/$(arg config).yaml" command="load" ns=""/>
         <rosparam file="$(arg calibration_0).yaml" command="load" ns="radar_0"/>
         <rosparam file="$(arg calibration_1).yaml" command="load" ns="radar_1"/>
         <rosparam file="$(arg calibration_2).yaml" command="load" ns="radar_2"/>

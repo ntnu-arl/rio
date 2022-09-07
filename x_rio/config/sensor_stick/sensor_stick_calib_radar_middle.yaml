@@ -17,7 +17,7 @@ q_b_r_z:  0.0
 q_b_r_w:  0.0
 
 # length of each radar frame (="exposure time" of radar scan) in milliseconds
-radar_frame_ms: 6.4139
+radar_frame_ms: 4.138
 
 # nominal radar rate
-radar_rate: 10.0
+radar_rate: 10.0 # 10.526315789
