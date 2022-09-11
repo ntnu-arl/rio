@@ -131,8 +131,8 @@ sigma_eul_b_r_pitch_deg: 0.15
 sigma_eul_b_r_yaw_deg: 0.15
 
 # Noise PSDs
-noise_psd_a: 0.019416176
-noise_psd_w_deg: 0.004949747
+noise_psd_a: 0.0019416176
+noise_psd_w_deg: 0.0004949747
 # noise_psd_b_a: 0.00002
 # noise_psd_b_w_deg: 0.000075
 noise_psd_b_a: 0.00001
