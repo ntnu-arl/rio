@@ -3,7 +3,7 @@
 # running rqt_reconfigure also provides tooltip text for the parameters and allows for online tuning
 
 # General
-frame_id: "odom"
+frame_id: "xrio_world"
 sim_mode: False
 
 # Publishers
@@ -80,7 +80,7 @@ yaw_aiding_min_snr_detection: 5
 yaw_aiding_min_dist: 0.25
 yaw_aiding_max_dist: 3
 yaw_aiding_ele_thresh_deg: 10
-yaw_aiding_min_v_xy: 0.25
+yaw_aiding_min_v_xy: 0.1 #0.25
 yaw_aiding_N_init: 300
 yaw_aiding_min_N_peak: 60
 yaw_aiding_N_gaussian: 21
@@ -88,7 +88,7 @@ yaw_aiding_gaussian_sigma: 3
 yaw_aiding_init_inlier_thresh_deg: 2.0
 yaw_aiding_yaw_inlier_thresh_deg: 50.0
 outlier_percentil_radar_yaw: 0.5
-sigma_radar_yaw_deg: 3
+sigma_radar_yaw_deg: 3 # 3
 
 # Initialization
 T_init: 10
@@ -133,6 +133,9 @@ sigma_eul_b_r_yaw_deg: 0.15
 # Noise PSDs
 noise_psd_a: 0.0019416176
 noise_psd_w_deg: 0.0004949747
+# original
+# noise_psd_a: 0.019416176
+# noise_psd_w_deg: 0.004949747
 # noise_psd_b_a: 0.00002
 # noise_psd_b_w_deg: 0.000075
 noise_psd_b_a: 0.00001

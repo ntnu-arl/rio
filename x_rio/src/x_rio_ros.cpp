@@ -186,9 +186,9 @@ void XRioRos::run()
 }
 
 void XRioRos::runFromRosbag(const std::string& rosbag_path,
-                              const Real bag_start,
-                              const Real bag_duration,
-                              const Real sleep_ms)
+                            const Real bag_start,
+                            const Real bag_duration,
+                            const Real sleep_ms)
 {
   rosbag::Bag source_bag;
   source_bag.open(rosbag_path, rosbag::bagmode::Read);
@@ -398,7 +398,7 @@ void XRioRos::iterateBaro()
     {
       // convert to Pa
       baro_temp_msg.fluid_pressure *= 1000;
-      
+
       queue_baro_.pop();
       if (config_.altimeter_update)
       {

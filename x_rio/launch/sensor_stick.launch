@@ -34,11 +34,11 @@
         <rosparam file="$(arg calibration_2).yaml" command="load" ns="radar_2"/>
         <!-- <param name="b_0_w_z_deg" value="-0.10" type="double"/> -->
         <param name="yaw_0_deg" value="2" type="double"/>
-        <!-- <param name="topic_imu" value="/vectornav_node/imu" type="str"/>
-        <param name="topic_baro_altimeter" value="/vectornav_node/pressure" type="str"/> -->
-        <param name="radar_yaw_update" value="$(arg radar_yaw_update)" type="bool"/>
-        <param name="altimeter_update" value="$(arg altimeter_update)" type="bool"/>
-        <param name="estimate_extrinsics" value="$(arg estimate_extrinsics)" type="bool"/>
+        <param name="topic_imu" value="/vectornav_node/imu" type="str"/>
+        <!-- <param name="topic_baro_altimeter" value="/vectornav_node/pressure" type="str"/> -->
+        <!-- <param name="radar_yaw_update" value="$(arg radar_yaw_update)" type="bool"/>
+        <param name="altimeter_update" value="$(arg altimeter_update)" type="bool"/> -->
+        <!-- <param name="estimate_extrinsics" value="$(arg estimate_extrinsics)" type="bool"/> -->
         <param name="n_radar" value="$(arg n_radar)" type="int"/>
     </node>
 

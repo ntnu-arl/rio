@@ -23,7 +23,7 @@ topic_ground_truth_twist: "/ground_truth/twist"
 topic_ground_truth_twist_body: "/ground_truth/twist_body"
 
 # KF Updates
-altimeter_update: False
+altimeter_update: True
 radar_update: True
 radar_yaw_update: True
 
@@ -76,19 +76,19 @@ model_noise_offset_deg: 2.0 # min model noise
 model_noise_scale_deg: 10.0 # scale model noise
 
 # radar yaw
-yaw_aiding_min_snr_detection: 5
+yaw_aiding_min_snr_detection: 10
 yaw_aiding_min_dist: 0.25
 yaw_aiding_max_dist: 3
 yaw_aiding_ele_thresh_deg: 10
-yaw_aiding_min_v_xy: 0.25
+yaw_aiding_min_v_xy: 0.5
 yaw_aiding_N_init: 300
 yaw_aiding_min_N_peak: 60
 yaw_aiding_N_gaussian: 21
 yaw_aiding_gaussian_sigma: 3
 yaw_aiding_init_inlier_thresh_deg: 2.0
-yaw_aiding_yaw_inlier_thresh_deg: 50.0
+yaw_aiding_yaw_inlier_thresh_deg: 5.0
 outlier_percentil_radar_yaw: 0.5
-sigma_radar_yaw_deg: 3
+sigma_radar_yaw_deg: 5
 
 # Initialization
 T_init: 10
@@ -135,4 +135,4 @@ noise_psd_a: 0.03
 noise_psd_w_deg: 0.2
 noise_psd_b_a: 0.00001
 noise_psd_b_w_deg: 0.000005
-noise_psd_b_alt: 0.00001
+noise_psd_b_alt: 0.0001
