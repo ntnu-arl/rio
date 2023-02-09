@@ -477,6 +477,10 @@ void XRioRos::iterateRadarScan()
       const auto radar_data     = queue_radar_.front();
       const auto radar_data_msg = radar_data.second;
 
+      radar_w_queue_.clear();
+      radar_w_queue_.emplace_back(imu_data_);
+      // std::cout << radar_data_msg.header.stamp.toSec() - imu_data_.time_stamp.toSec() << std::endl;
+
       if (radar_frame_ids_.at(radar_data.first).empty())
         radar_frame_ids_.at(radar_data.first) = radar_data_msg.header.frame_id;
 
@@ -491,6 +495,7 @@ void XRioRos::iterateRadarScan()
         {
           FullRadarCloneState radar_clone_state;
           uint clone_state_id;
+          x_rio_filter_.addRadarStateClone(radar_data.first, radar_data_msg.header.stamp);
           if (x_rio_filter_.getFullRadarState(radar_data.first, radar_clone_state, clone_state_id))
           {
             const auto time_diff_clone =
