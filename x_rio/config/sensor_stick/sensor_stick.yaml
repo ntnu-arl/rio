@@ -91,7 +91,7 @@ outlier_percentil_radar_yaw: 0.5
 sigma_radar_yaw_deg: 3
 
 # Initialization
-T_init: 5
+T_init: 10
 calib_gyro: true
 g_n: 9.81 # 9.82156 # based on 63.4279799 deg latitude and 68.87m height
 
