@@ -348,7 +348,7 @@ void XRioRos::iterateImu()
     queue_imu_.pop();
 
     if (body_frame_id_.empty())
-      body_frame_id_ = imu_data_.frame_id;
+      body_frame_id_ = imu_data_.frame_id + "_xrio";
 
     if (!initialized_)
     {
@@ -482,7 +482,7 @@ void XRioRos::iterateRadarScan()
       // std::cout << radar_data_msg.header.stamp.toSec() - imu_data_.time_stamp.toSec() << std::endl;
 
       if (radar_frame_ids_.at(radar_data.first).empty())
-        radar_frame_ids_.at(radar_data.first) = radar_data_msg.header.frame_id;
+        radar_frame_ids_.at(radar_data.first) = radar_data_msg.header.frame_id + "_xrio";
 
       if (x_rio_filter_.getTimestamp().toSec() + config_.radar_frame_ms / 1.0e3 >= radar_data_msg.header.stamp.toSec())
       {
@@ -544,6 +544,7 @@ void XRioRos::iterateRadarScan()
                 sensor_msgs::PointCloud2 inlier_radar_scan_msg;
                 pclToPcl2msg(inlier_radar_scan, inlier_radar_scan_msg);
                 inlier_radar_scan_msg.header = radar_data_msg.header;
+                inlier_radar_scan_msg.header.frame_id += "_xrio";
 
                 pubs_radar_scan_inlier_.at(radar_data.first).publish(inlier_radar_scan_msg);
 
