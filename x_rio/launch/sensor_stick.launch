@@ -3,49 +3,68 @@
 <!--@author Christopher Doer <christopher.doer@kit.edu>-->
 
 <launch>
-    <arg name="enable_rviz" default="False"/>
-    <arg name="enable_plot" default="False"/>
+  <arg name="enable_rviz" default="False"/>
+  <arg name="enable_plot" default="False"/>
 
-    <arg name="type"/>
+  <arg name="type"/>
 
-    <arg name="dataset_dir" default="/home/morten/bags/2023_icra_radar"/>
-    <arg name="rosbag" default="day1/bathroom_loop_2/data.bag"/>
+  <arg name="dataset_dir" default="/home/morten/bags/2023_icra_radar"/>
+  <arg name="rosbag" default="day1/bathroom_loop_2/data.bag"/>
 
-    <arg name="config_dir" default="$(find x_rio)/config/sensor_stick"/>
-    <arg name="config" default="sensor_stick"/>
-    <arg name="calibration_0" default="$(arg config_dir)/sensor_stick_calib_radar_middle"/>
-    <arg name="calibration_1" default="$(arg config_dir)/sensor_stick_calib_radar_left"/>
-    <arg name="calibration_2" default="$(arg config_dir)/sensor_stick_calib_radar_right"/>
+  <arg name="config_dir" default="$(find x_rio)/config/sensor_stick"/>
+  <arg name="config" default="x_rio_demo_params_new"/>
+  <arg name="calibration_0" default="$(arg config_dir)/sensor_stick_calib_radar_middle"/>
+  <arg name="calibration_1" default="$(arg config_dir)/sensor_stick_calib_radar_left"/>
+  <arg name="calibration_2" default="$(arg config_dir)/sensor_stick_calib_radar_right"/>
 
-    <arg name="n_radar" default="3"/>
-    <arg name="radar_yaw_update" default="true"/>
-    <arg name="altimeter_update" default="true"/>
-    <!-- seems better without -->
-    <arg name="estimate_extrinsics" default="false"/>
+  <arg name="n_radar" default="3"/>
+  <arg name="radar_yaw_update" default="true"/>
+  <arg name="altimeter_update" default="true"/>
+  <!-- seems better without -->
+  <arg name="estimate_extrinsics" default="false"/>
 
-    <arg name="filter_node_name" default="rio"/>
-    <arg name="log_level" default="Info"/>
+  <arg name="filter_node_name" default="rio"/>
+  <arg name="log_level" default="Info"/>
 
-    <node name="$(arg filter_node_name)" pkg="x_rio" type="$(arg type)" output="screen" launch-prefix="bash -c 'sleep 0.; $0 $@' " clear_params="false">
-        <param name="rosbag_path" value="$(arg dataset_dir)/$(arg rosbag)" type="string"/>
-        <rosparam file="$(arg config_dir)/$(arg config).yaml" command="load" ns=""/>
-        <rosparam file="$(arg calibration_0).yaml" command="load" ns="radar_0"/>
-        <rosparam file="$(arg calibration_1).yaml" command="load" ns="radar_1"/>
-        <rosparam file="$(arg calibration_2).yaml" command="load" ns="radar_2"/>
-        <!-- <param name="b_0_w_z_deg" value="-0.10" type="double"/> -->
-        <param name="yaw_0_deg" value="2" type="double"/>
-        <param name="topic_imu" value="/vectornav_node/imu" type="str"/>
-        <!-- <param name="topic_baro_altimeter" value="/vectornav_node/pressure" type="str"/> -->
-        <!-- <param name="radar_yaw_update" value="$(arg radar_yaw_update)" type="bool"/>
+  <node name="$(arg filter_node_name)" pkg="x_rio" type="$(arg type)" output="screen" launch-prefix="bash -c 'sleep 0.; $0 $@' " clear_params="false">
+    <param name="rosbag_path" value="$(arg dataset_dir)/$(arg rosbag)" type="string"/>
+    <rosparam file="$(arg config_dir)/../$(arg config).yaml" command="load" ns=""/>
+    <rosparam file="$(arg calibration_0).yaml" command="load" ns="radar_0"/>
+    <rosparam file="$(arg calibration_1).yaml" command="load" ns="radar_1"/>
+    <rosparam file="$(arg calibration_2).yaml" command="load" ns="radar_2"/>
+    <!-- <param name="b_0_w_z_deg" value="-0.10" type="double"/> -->
+    <param name="yaw_0_deg" value="2" type="double"/>
+    <param name="topic_imu" value="/vectornav_node/imu" type="str"/>
+    <param name="topic_baro_altimeter" value="/vectornav_node/pressure" type="str"/>
+    <!-- <param name="radar_yaw_update" value="$(arg radar_yaw_update)" type="bool"/>
         <param name="altimeter_update" value="$(arg altimeter_update)" type="bool"/> -->
-        <!-- <param name="estimate_extrinsics" value="$(arg estimate_extrinsics)" type="bool"/> -->
-        <param name="n_radar" value="$(arg n_radar)" type="int"/>
-    </node>
+    <!-- <param name="estimate_extrinsics" value="$(arg estimate_extrinsics)" type="bool"/> -->
+    <param name="n_radar" value="$(arg n_radar)" type="int"/>
+  </node>
 
-    <node pkg="rosservice" type="rosservice" name="set_$(arg filter_node_name)_log_level" args="call --wait /$(arg filter_node_name)/set_logger_level 'ros.$(arg filter_node_name)' '$(arg log_level)'" launch-prefix="bash -c 'sleep 0.1; $0 $@' "/>
+  <node pkg="rosservice" type="rosservice" name="set_$(arg filter_node_name)_log_level" args="call --wait /$(arg filter_node_name)/set_logger_level 'ros.$(arg filter_node_name)' '$(arg log_level)'" launch-prefix="bash -c 'sleep 0.1; $0 $@' "/>
 
-    <node name="plot_states" pkg="x_rio" type="plot_states.py" output="screen" if="$(arg enable_plot)"/>
+  <node name="plot_states" pkg="x_rio" type="plot_states.py" output="screen" if="$(arg enable_plot)"/>
 
-    <node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find x_rio)/config/sensor_stick/rio.rviz" if="$(arg enable_rviz)"/>
+  <node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find x_rio)/config/sensor_stick/rio.rviz" if="$(arg enable_rviz)"/>
+  <node pkg="rosbag" type="record" name="xrio_recorder" output="screen" respawn="false" args="-o /media/shared/bags/ntnu_corridor/xrio
+    /$(arg filter_node_name)/combined_radar_scan
+    /$(arg filter_node_name)/covariance
+    /$(arg filter_node_name)/filter_err_measurement
+    /$(arg filter_node_name)/odom
+    /$(arg filter_node_name)/parameter_descriptions
+    /$(arg filter_node_name)/parameter_updates
+    /$(arg filter_node_name)/pose
+    /$(arg filter_node_name)/pose_path
+    /$(arg filter_node_name)/radar_0_inlier
+    /$(arg filter_node_name)/radar_1_inlier
+    /$(arg filter_node_name)/state
+    /$(arg filter_node_name)/twist
+    /$(arg filter_node_name)/yaw_aiding_filtered
+    /$(arg filter_node_name)/yaw_aiding_init
+    /$(arg filter_node_name)/yaw_inlier
+    /$(arg filter_node_name)/yaw_measurement
+    /tf
+    "/>
 
 </launch>
